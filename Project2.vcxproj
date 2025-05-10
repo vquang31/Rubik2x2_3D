@@ -136,11 +136,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="Polygon3D.cpp" />
+    <ClCompile Include="RubikCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonMethod.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="Point3D.h" />
     <ClInclude Include="Polygon3D.h" />
+    <ClInclude Include="Position3D.h" />
     <ClInclude Include="RubikCube.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

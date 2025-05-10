@@ -24,6 +24,9 @@
     <ClCompile Include="Polygon3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RubikCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RubikCube.h">
@@ -36,6 +39,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommonMethod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Position3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

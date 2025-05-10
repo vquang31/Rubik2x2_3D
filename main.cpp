@@ -1,9 +1,12 @@
 ﻿// cube3d.cpp
 #include <GL/glut.h>
 #include <iostream>
-
+#include "Polygon3D.h"
+#include "RubikCube.h"
 // Góc xoay cube
 float rotationAngle = 0.0f;
+Polygon3D cube;
+RubikCube rubikCube;
 
 // Hàm vẽ một khối lập phương
 void drawCube() {
@@ -51,7 +54,7 @@ void drawCube() {
 void drawTriangle1() {
     glBegin(GL_TRIANGLE_FAN);
     glColor3f(1.0f, 0.0f, 0.0f);   // Màu đỏ cho đỉnh gốc
-    glVertex2f(50.0f, 150.0f);   // 🔺 Đỉnh gốc (center)
+    glVertex2f(50.0f, 150.0f);     // 🔺 Đỉnh gốc (center)
 
     glColor3f(0.0f, 1.0f, 0.0f);   // Xanh
     glVertex2f(100.0f, 100.0f);   // Điểm ngoại biên 1
@@ -97,7 +100,14 @@ void display1() {
     glTranslatef(0.0f, 0.0f, -7.0f);
     glRotatef(rotationAngle, 1.0f, 1.0f, 1.0f);
 
-    drawTriangle2();
+    gluLookAt(5.0, 5.0, 5.0,    // Camera đặt ở Z = 5
+        0.0, 0.0, 0.0,    // Nhìn vào gốc tọa độ
+        0.0, 1.0, 0.0);   // Hướng lên là trục Y
+
+    //drawTriangle2();
+    //cube.draw();
+    rubikCube.draw();
+
     //drawCube();
 
     glutSwapBuffers();
@@ -107,7 +117,6 @@ void display2() {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(1, 0, 0);
     //
-
     drawTriangle1();
 
     //
@@ -118,12 +127,11 @@ void display2() {
 void reshape(int w, int h) {
     if (h == 0) h = 1; // Tránh chia cho 0
     float aspect = (float)w / (float)h;
-
     glViewport(0, 0, w, h);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0f, aspect, 1.0f, 100.0f);
+    gluPerspective(75.0f, aspect, 1.0f, 100.0f);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -141,26 +149,28 @@ void idle() {
 
 // Cấu hình OpenGL
 void initGL() {
-    //glEnable(GL_DEPTH_TEST); // 3D
+    glEnable(GL_DEPTH_TEST); // 3D
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    gluOrtho2D(-600, 600, -600, 600); // 2D
+    //gluOrtho2D(-600, 600, -600, 600); // 2D
 
 }
 
 // Hàm main
 int main(int argc, char** argv) {
+    cube.update({ {0 , 0,-1.f },{ -1, 0, -1 },{ -1, -1, -1 },{ 0, -1, -1 } });
+    cube.updateColor(Polygon3D::COLOR_RED);
     glutInit(&argc, argv);
-    //glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
+    //glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
     glutInitWindowSize(800, 600);
     glutCreateWindow("3D Cube with OpenGL & GLUT");
 
     initGL();
 
-    glutDisplayFunc(display2);
-    //glutReshapeFunc(reshape); // 3D
-    glutIdleFunc(idle);
+    glutDisplayFunc(display1);
+    glutReshapeFunc(reshape); // 3D
+    //glutIdleFunc(idle);
 
     glutMainLoop();
     return 0;
