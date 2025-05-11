@@ -16,16 +16,13 @@ void Polygon3D::draw() {
 	glBegin(GL_LINES);
 	glColor3ub(0, 0, 0);
 
-	glVertex3f(listPoints[0].x, listPoints[0].y, listPoints[0].z); // điểm đầu
-	glVertex3f(listPoints[3].x, listPoints[3].y, listPoints[3].z);		// điểm cuối
-
-
-
-	for (int i = 0; i < 3; i++) {
-		glVertex3f(listPoints[i].x, listPoints[i].y, listPoints[i].z); // điểm đầu
-		glVertex3f(listPoints[i+1].x, listPoints[i+1].y, listPoints[i+1].z);		// điểm cuối
+	size_t n = listPoints.size();
+	for (size_t i = 0; i < n; ++i) {
+		const Point3D& p1 = listPoints[i];
+		const Point3D& p2 = listPoints[(i + 1) % n]; // lặp lại để nối điểm cuối với đầu
+		glVertex3f(p1.x, p1.y, p1.z);
+		glVertex3f(p2.x, p2.y, p2.z);
 	}
-
 
 
 

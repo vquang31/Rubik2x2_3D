@@ -19,9 +19,7 @@ public:
 	const static int COLOR_BLUE = 3;
 	const static int COLOR_YELLOW = 4;
 	const static int COLOR_WHITE = 5;
-	const static int COLOR_BLACK = 6;
-
-
+	const static int COLOR_ORANGE = 6;
 
 
 
@@ -69,9 +67,9 @@ public:
 			greenColor = 255;
 			blueColor = 255;
 			break;
-		case COLOR_BLACK:
-			redColor = 0;
-			greenColor = 0;
+		case COLOR_ORANGE:
+			redColor = 247;
+			greenColor = 91;
 			blueColor = 0;
 			break;
 		default:

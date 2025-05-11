@@ -145,6 +145,7 @@
     <ClInclude Include="Polygon3D.h" />
     <ClInclude Include="Position3D.h" />
     <ClInclude Include="RubikCube.h" />
+    <ClInclude Include="TypeRotate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

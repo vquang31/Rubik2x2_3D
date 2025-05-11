@@ -100,12 +100,11 @@ void display1() {
     glTranslatef(0.0f, 0.0f, -7.0f);
     glRotatef(rotationAngle, 1.0f, 1.0f, 1.0f);
 
-    gluLookAt(5.0, 5.0, 5.0,    // Camera đặt ở Z = 5
+    gluLookAt(-1.0, 1.0, -1.0,    // Camera đặt ở Z = 5
         0.0, 0.0, 0.0,    // Nhìn vào gốc tọa độ
         0.0, 1.0, 0.0);   // Hướng lên là trục Y
 
     //drawTriangle2();
-    //cube.draw();
     rubikCube.draw();
 
     //drawCube();
@@ -131,7 +130,7 @@ void reshape(int w, int h) {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(75.0f, aspect, 1.0f, 100.0f);
+    gluPerspective(45.0f, aspect, 1.0f, 100.0f);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -150,15 +149,18 @@ void idle() {
 // Cấu hình OpenGL
 void initGL() {
     glEnable(GL_DEPTH_TEST); // 3D
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     //gluOrtho2D(-600, 600, -600, 600); // 2D
 
 }
 
 // Hàm main
 int main(int argc, char** argv) {
-    cube.update({ {0 , 0,-1.f },{ -1, 0, -1 },{ -1, -1, -1 },{ 0, -1, -1 } });
-    cube.updateColor(Polygon3D::COLOR_RED);
+	srand(time(0)); 
+    rubikCube.randomRotate();
+
+    rubikCube.inCube();
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
     //glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);

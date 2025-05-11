@@ -47,5 +47,8 @@
     <ClInclude Include="Position3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TypeRotate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
