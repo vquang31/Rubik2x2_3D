@@ -1,7 +1,7 @@
 ﻿#include "CommonMethod.h"
-#include "Polygon3D.h"
+#include "Plane3D.h"
 
-void Polygon3D::draw() {
+void Plane3D::draw() {
 	
 	// draw face
 	 
@@ -30,30 +30,67 @@ void Polygon3D::draw() {
 
 	// draw line 
 
-
 }
 
 
-void Polygon3D::rotatePolygon(double angel, int axis) {
+void Plane3D::updateColor(int type) {
+	switch (type) {
+	case TypeColor::COLOR_RED:
+		redColor = 255;
+		greenColor = 0;
+		blueColor = 0;
+		break;
+	case TypeColor::COLOR_GREEN:
+		redColor = 0;
+		greenColor = 255;
+		blueColor = 0;
+		break;
+	case TypeColor::COLOR_BLUE:
+		redColor = 0;
+		greenColor = 0;
+		blueColor = 255;
+		break;
+	case TypeColor::COLOR_YELLOW:
+		redColor = 255;
+		greenColor = 255;
+		blueColor = 0;
+		break;
+	case TypeColor::COLOR_WHITE:
+		redColor = 255;
+		greenColor = 255;
+		blueColor = 255;
+		break;
+	case TypeColor::COLOR_ORANGE:
+		redColor = 247;
+		greenColor = 91;
+		blueColor = 0;
+		break;
+	default:
+		break;
+	}
+}
+
+
+void Plane3D::rotatePolygon(double angel, int axis) {
 	double PI = 2 * acos(0.0);
 	double angelRad = PI / 180 * angel;
 	double** A = CommonMethod::createPolygonMatrix_3D(*this);
 	double** B = CommonMethod::createUnitMatrix(3);
 
 	switch (axis) {
-	case AXIS_OX:
+	case TypeSpace3D::AXIS_OX:
 		B[1][1] = cos(angelRad);
 		B[1][2] = sin(angelRad);
 		B[2][1] = -sin(angelRad);
 		B[2][2] = cos(angelRad);
 		break;
-	case AXIS_OY:
+	case TypeSpace3D::AXIS_OY:
 		B[0][0] = cos(angelRad);
 		B[0][2] = -sin(angelRad);
 		B[2][0] = sin(angelRad);
 		B[2][2] = cos(angelRad);
 		break;
-	case AXIS_OZ:
+	case TypeSpace3D::AXIS_OZ:
 		B[0][0] = cos(angelRad);
 		B[0][1] = sin(angelRad);
 		B[1][0] = -sin(angelRad);
@@ -66,7 +103,7 @@ void Polygon3D::rotatePolygon(double angel, int axis) {
 	return;
 }
 
-void Polygon3D::scalePolygon(double x, double y, double z) {
+void Plane3D::scalePolygon(double x, double y, double z) {
 	double** A = CommonMethod::createPolygonMatrix_3D(*this);
 	double** B = CommonMethod::createUnitMatrix(3);
 
@@ -80,7 +117,7 @@ void Polygon3D::scalePolygon(double x, double y, double z) {
 
 }
 
-void Polygon3D::transformPolygon(double b, double c, double d, double f, double g, double h) {
+void Plane3D::transformPolygon(double b, double c, double d, double f, double g, double h) {
 	double** A = CommonMethod::createPolygonMatrix_3D(*this);
 	double** B = CommonMethod::createUnitMatrix(3);
 
@@ -97,30 +134,30 @@ void Polygon3D::transformPolygon(double b, double c, double d, double f, double 
 }
 
 
-void Polygon3D::symmetryPolygon(int type) {
+void Plane3D::symmetryPolygon(int type) {
 	double** A = CommonMethod::createPolygonMatrix_3D(*this);
 	double** B = CommonMethod::createUnitMatrix(3);
 
 	switch (type) {
-	case AXIS_OX:
+	case TypeSpace3D::AXIS_OX:
 		B[1][1] = -1;
 		B[2][2] = -1;
 		break;
-	case AXIS_OY:
+	case TypeSpace3D::AXIS_OY:
 		B[0][0] = -1;
 		B[2][2] = -1;
 		break;
-	case AXIS_OZ:
+	case TypeSpace3D::AXIS_OZ:
 		B[0][0] = -1;
 		B[1][1] = -1;
 		break;
-	case PLANE_XY:
+	case TypeSpace3D::PLANE_XY:
 		B[2][2] = -1;
 		break;
-	case PLANE_XZ:
+	case TypeSpace3D::PLANE_XZ:
 		B[1][1] = -1;
 		break;
-	case PLANE_YZ:
+	case TypeSpace3D::PLANE_YZ:
 		B[0][0] = -1;
 		break;
 	}
@@ -130,7 +167,7 @@ void Polygon3D::symmetryPolygon(int type) {
 	return;
 }
 
-void Polygon3D::movePolygon(double a, double b, double c) {
+void Plane3D::movePolygon(double a, double b, double c) {
 	double** A = CommonMethod::createPolygonMatrix_3D(*this);
 	double** B = CommonMethod::createUnitMatrix(3);
 	B[3][0] = a;

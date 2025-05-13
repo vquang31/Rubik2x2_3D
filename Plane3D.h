@@ -2,36 +2,21 @@
 #include <vector>
 #include "Point3D.h"
 #include <iostream>
+#include "TypeSpace3D.h"
+#include "TypeColor.h"
+class Plane3D {
 
-class Polygon3D {
-public:
-
-	const static int AXIS_OX = 1;
-	const static int AXIS_OY = 2;
-	const static int AXIS_OZ = 3;
-
-	const static int PLANE_XY = 4;
-	const static int PLANE_XZ = 5;
-	const static int PLANE_YZ = 6;
-
-	const static int COLOR_RED = 1;
-	const static int COLOR_GREEN = 2;
-	const static int COLOR_BLUE = 3;
-	const static int COLOR_YELLOW = 4;
-	const static int COLOR_WHITE = 5;
-	const static int COLOR_ORANGE = 6;
-
-
-
-	std::vector<Point3D> listPoints;
-
+private:
 	int redColor = 256;
 	int greenColor = 256;
 	int blueColor = 256;
 
-	Polygon3D() {}
+public:
+	std::vector<Point3D> listPoints;
 
-	Polygon3D(std::vector<Point3D> listPoints1) {
+	Plane3D() {}
+
+	Plane3D(std::vector<Point3D> listPoints1) {
 		update(listPoints1);
 	}
 
@@ -39,43 +24,7 @@ public:
 		listPoints = listPoints1;
 	}
 
-
-	void updateColor(int type) {
-		switch (type) {
-		case COLOR_RED:
-			redColor = 255;
-			greenColor = 0;
-			blueColor = 0;
-			break;
-		case COLOR_GREEN:
-			redColor = 0;
-			greenColor = 255;
-			blueColor = 0;
-			break;
-		case COLOR_BLUE:
-			redColor = 0;
-			greenColor = 0;
-			blueColor = 255;
-			break;
-		case COLOR_YELLOW:
-			redColor = 255;
-			greenColor = 255;
-			blueColor = 0;
-			break;
-		case COLOR_WHITE:
-			redColor = 255;
-			greenColor = 255;
-			blueColor = 255;
-			break;
-		case COLOR_ORANGE:
-			redColor = 247;
-			greenColor = 91;
-			blueColor = 0;
-			break;
-		default:
-			break;
-		}
-	}
+	void updateColor(int type);
 
 	void updateColor(int r, int g, int b) {
 		redColor = r;
@@ -110,6 +59,9 @@ public:
 	void symmetryPolygon(int type);
 
 	void movePolygon(double a, double b, double c);
+
+	///
+
 
 protected:
 

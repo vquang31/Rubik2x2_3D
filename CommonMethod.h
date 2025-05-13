@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Point3D.h"
-#include "Polygon3D.h"
+#include "Plane3D.h"
 
 class CommonMethod {
 public:
@@ -20,7 +20,7 @@ public:
 	}
 
 
-	static double** createPolygonMatrix_3D(Polygon3D p3D) {
+	static double** createPolygonMatrix_3D(Plane3D p3D) {
 		//std::cout << " CREATE" << std::endl;
 		int row = p3D.listPoints.size();
 		double** A = createEmptyMatrix(row, 3);
@@ -30,13 +30,9 @@ public:
 			A[i][2] = p3D.listPoints[i].z;
 			A[i][3] = 1;
 
-			//std::cout << A[i][0] << " " << A[i][1] << " " << A[i][2] << " " << A[i][3] << std:: endl;
 		}
-		//std::cout << std::endl;
-
 		return A;
 	}
-
 
 
 	static double** createEmptyMatrix(int row, int dimension) {

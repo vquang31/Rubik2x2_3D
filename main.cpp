@@ -1,130 +1,92 @@
 ﻿// cube3d.cpp
 #include <GL/glut.h>
 #include <iostream>
-#include "Polygon3D.h"
+#include "Plane3D.h"
 #include "RubikCube.h"
-// Góc xoay cube
-float rotationAngle = 0.0f;
-Polygon3D cube;
+#include "Line3D.h"
+#include "Button.h"
+#include "TypeCamera.h"
+#include <vector>
+
+
 RubikCube rubikCube;
+float rotationAngle = 0.0f;
+Line3D lineX(TypeSpace3D::AXIS_OX);
+Line3D lineY(TypeSpace3D::AXIS_OY);
+Line3D lineZ(TypeSpace3D::AXIS_OZ);
+Point3D rayOrigin, rayDir;
+int selectedOption = -1;                            // Biến lưu lựa chọn của người dùng
+int typeCamera = TypeCamera::CAMERA_1;              // Biến lưu loại camera hiện tại
 
-// Hàm vẽ một khối lập phương
-void drawCube() {
+//Button
+std::vector<Button> buttons = {
+    Button({ {2,2,3} , {1 ,2 ,3} , {1 , 1, 3} ,{ 2, 1, 3} }, TypeRotate::TYPE_R ,TypeColor::COLOR_RED ),
+   
+};
 
-    glBegin(GL_QUADS);
-    // Mặt trước (z = 1.0)
-    glColor3f(1.0f, 0.0f, 0.0f); // Đỏ
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    // Mặt sau (z = -1.0)
-    glColor3f(0.0f, 1.0f, 0.0f); // Xanh lá
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    // Mặt trái (x = -1.0)
-    glColor3f(0.0f, 0.0f, 1.0f); // Xanh dương
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    // Mặt phải (x = 1.0)
-    glColor3f(1.0f, 1.0f, 0.0f); // Vàng
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    // Mặt trên (y = 1.0)
-    glColor3f(1.0f, 0.0f, 1.0f); // Hồng
-    glVertex3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);
-    // Mặt dưới (y = -1.0)
-    glColor3f(0.0f, 1.0f, 1.0f); // Cyan
-    glVertex3f(1.0f, -1.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);
-    glEnd();
+// Cấu hình OpenGL
+void initGL() {
+    glEnable(GL_DEPTH_TEST); // 3D
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 }
-
-void drawTriangle1() {
-    glBegin(GL_TRIANGLE_FAN);
-    glColor3f(1.0f, 0.0f, 0.0f);   // Màu đỏ cho đỉnh gốc
-    glVertex2f(50.0f, 150.0f);     // 🔺 Đỉnh gốc (center)
-
-    glColor3f(0.0f, 1.0f, 0.0f);   // Xanh
-    glVertex2f(100.0f, 100.0f);   // Điểm ngoại biên 1
-
-    glVertex2f(200.0f, 100.0f);   // 2
-
-    glVertex2f(250.0f, 150.0f);   // 3
-
-    glVertex2f(200.0f, 200.0f);   // 4
-
-    glVertex2f(100.0f, 200.0f);   // 5
-
-    glEnd();
-}
-
-
-void drawTriangle2() { // 3D
-    const int numSegments = 32;
-    const float radius = 1.0f;
-    const float centerX = 0.0f, centerY = 0.0f, centerZ = 0.0f;
-
-    glBegin(GL_TRIANGLE_FAN);
-    glColor3f(1, 0, 0);
-    glVertex3f(centerX, centerY, centerZ); // Đỉnh gốc ở giữa
-
-    for (int i = 0; i <= numSegments; ++i) {
-        double M_PI = 2 * acos(0.0);
-        float angle = i * 2.0f * M_PI / numSegments;
-        float x = radius * cos(angle);
-        float y = radius * sin(angle);
-        glColor3f(0, 0, 1);
-        glVertex3f(x, y, centerZ); // Tất cả đỉnh cùng mặt phẳng Z
-    }
-    glEnd();
-}
-
 
 // Hàm vẽ màn hình // 3D
-void display1() {
+void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glTranslatef(0.0f, 0.0f, -7.0f);
-    glRotatef(rotationAngle, 1.0f, 1.0f, 1.0f);
+    //glMatrixMode(GL_PROJECTION);
+    //glLoadIdentity();
+    //gluPerspective(60.0, 1.0 * glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT), 1.0, 100.0);
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
 
-    gluLookAt(-1.0, 1.0, -1.0,    // Camera đặt ở Z = 5
-        0.0, 0.0, 0.0,    // Nhìn vào gốc tọa độ
-        0.0, 1.0, 0.0);   // Hướng lên là trục Y
+    //glTranslatef(0.0f, 0.0f, 0.0f);
+   
+    switch (typeCamera) {
+        case TypeCamera::CAMERA_1:
+            gluLookAt(5.0, 5.0, 5.0, // Camera đặt ở Z = 5
+                0.0, 0.0, 0.0,       // Nhìn vào gốc tọa độ
+                0.0, 1.0, 0.0);      // Hướng lên là trục Y
+            break;            
+        case TypeCamera::CAMERA_2:
+            gluLookAt(-5.0, 5.0, 5.0,
+                0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0);
+            break;
+        case TypeCamera::CAMERA_3:
+            gluLookAt(-5.0, 5.0, -5.0,
+                0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0);
+            break;
+        case TypeCamera::CAMERA_4:
+            gluLookAt(5.0, 5.0, -5.0,
+                0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0);
+            break;
+    }
 
-    //drawTriangle2();
     rubikCube.draw();
+	lineX.draw();
+	lineY.draw();
+	lineZ.draw();   
 
-    //drawCube();
+	for (int i = 0; i < buttons.size(); i++) {
+		buttons[i].draw();
+	}
+
+
+    // UI
+    //int w = glutGet(GLUT_WINDOW_WIDTH);
+    //int h = glutGet(GLUT_WINDOW_HEIGHT);
+    //b1.draw();
+
 
     glutSwapBuffers();
 }
-// 2D
-void display2() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(1, 0, 0);
-    //
-    drawTriangle1();
-
-    //
-    glFlush();
-}
-
-//
+// 
 void reshape(int w, int h) {
-    if (h == 0) h = 1; // Tránh chia cho 0
+    if (h == 0) h = 1; 
     float aspect = (float)w / (float)h;
     glViewport(0, 0, w, h);
 
@@ -136,8 +98,55 @@ void reshape(int w, int h) {
     glLoadIdentity();
 }
 
+void menuCallback(int value) {
+    selectedOption = value; // cập nhật lựa chọn
 
-// Hàm cập nhật
+    if(selectedOption <= 12) 
+	{
+		rubikCube.Rotate(selectedOption);
+	}
+    if (selectedOption > 100 && selectedOption < 200) {
+		typeCamera = selectedOption;
+    }
+
+    glutPostRedisplay();    // yêu cầu vẽ lại
+}
+
+void mouse(int button, int state, int x, int y) {
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        GLint viewport[4];
+        GLdouble modelview[16], projection[16];
+        glGetIntegerv(GL_VIEWPORT, viewport);
+        glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+        glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+        float winX = (float)x;
+        float winY = (float)viewport[3] - (float)y;
+
+        GLdouble wx1, wy1, wz1;
+        GLdouble wx2, wy2, wz2;
+
+        gluUnProject(winX, winY, 0.0, modelview, projection, viewport, &wx1, &wy1, &wz1);
+        gluUnProject(winX, winY, 1.0, modelview, projection, viewport, &wx2, &wy2, &wz2);
+
+        rayOrigin = { (float)wx1, (float)wy1, (float)wz1 };
+        Point3D target = { (float)wx2, (float)wy2, (float)wz2 };
+        rayDir = { target.x - rayOrigin.x, target.y - rayOrigin.y, target.z - rayOrigin.z };
+
+        for (Button& button : buttons) {
+            if (button.hit(rayOrigin, rayDir)) {
+                //std::cout << "[INFO] Clicked plane ID: " << button.typeRotate  << "\n";
+				rubikCube.Rotate(button.typeRotate);
+            }
+        }
+    }
+}
+
+void timer(int value) {
+    glutPostRedisplay();
+    glutTimerFunc(16, timer, 0); // ~60 FPS
+}
+
 void idle() {
     rotationAngle += 0.04f;
     if (rotationAngle > 360.0f) {
@@ -146,36 +155,52 @@ void idle() {
     glutPostRedisplay();
 }
 
-// Cấu hình OpenGL
-void initGL() {
-    glEnable(GL_DEPTH_TEST); // 3D
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    //gluOrtho2D(-600, 600, -600, 600); // 2D
-
-}
-
-// Hàm main
 int main(int argc, char** argv) {
 	srand(time(0)); 
     rubikCube.randomRotate();
-
     rubikCube.inCube();
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
-    //glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-
     glutInitWindowSize(800, 600);
     glutCreateWindow("3D Cube with OpenGL & GLUT");
 
-    initGL();
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
 
-    glutDisplayFunc(display1);
-    glutReshapeFunc(reshape); // 3D
+    initGL();
+    glRotatef(rotationAngle, 1.0f, 1.0f, 1.0f);
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+
+    // event menu
+    int menu = glutCreateMenu(menuCallback);
+
+    glutAddMenuEntry("Camera_1", TypeCamera::CAMERA_1);
+    glutAddMenuEntry("Camera_2", TypeCamera::CAMERA_2);
+    glutAddMenuEntry("Camera_3", TypeCamera::CAMERA_3);
+    glutAddMenuEntry("Camera_4", TypeCamera::CAMERA_4);
+
+    glutAddMenuEntry("Rotate_R", TypeRotate::TYPE_R);
+    glutAddMenuEntry("Rotate_R_", TypeRotate::TYPE_R_);
+    glutAddMenuEntry("Rotate_L", TypeRotate::TYPE_L);
+    glutAddMenuEntry("Rotate_L_", TypeRotate::TYPE_L_);
+    glutAddMenuEntry("Rotate_F", TypeRotate::TYPE_F);
+    glutAddMenuEntry("Rotate_F_", TypeRotate::TYPE_F_);
+    glutAddMenuEntry("Rotate_B", TypeRotate::TYPE_B);
+    glutAddMenuEntry("Rotate_B_", TypeRotate::TYPE_B_);
+    glutAddMenuEntry("Rotate_U", TypeRotate::TYPE_U);
+    glutAddMenuEntry("Rotate_U_", TypeRotate::TYPE_U_);
+    glutAddMenuEntry("Rotate_D", TypeRotate::TYPE_D);
+    glutAddMenuEntry("Rotate_D_", TypeRotate::TYPE_D_);
+
+    glutAttachMenu(GLUT_RIGHT_BUTTON);                      // Bấm chuột phải để hiện menu
+
+    glutMouseFunc(mouse);
+    glutTimerFunc(0, timer, 0);
+
     //glutIdleFunc(idle);
 
     glutMainLoop();
+
     return 0;
 }
-
 

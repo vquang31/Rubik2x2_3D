@@ -133,19 +133,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Line3D.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Point3D.cpp" />
-    <ClCompile Include="Polygon3D.cpp" />
+    <ClCompile Include="Plane3D.cpp" />
     <ClCompile Include="RubikCube.cpp" />
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="test2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="TypeCamera.h" />
+    <ClInclude Include="TypeColor.h" />
     <ClInclude Include="CommonMethod.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Line3D.h" />
     <ClInclude Include="Point3D.h" />
-    <ClInclude Include="Polygon3D.h" />
+    <ClInclude Include="Plane3D.h" />
     <ClInclude Include="Position3D.h" />
     <ClInclude Include="RubikCube.h" />
     <ClInclude Include="TypeRotate.h" />
+    <ClInclude Include="TypeSpace3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "Polygon3D.h"
+#include "Plane3D.h"
 #include "Position3D.h"
 #include "TypeRotate.h"
 class Cube {
@@ -11,7 +11,7 @@ public:
 
 	Position3D position;
 
-	Polygon3D face[3];
+	Plane3D face[3];
 
 	bool moving = false;
 
@@ -46,27 +46,27 @@ public:
 		switch (type) {
 		case TypeRotate::TYPE_L:
 		case TypeRotate::TYPE_R_:
-			rotateFaces(90, Polygon3D::AXIS_OZ);
+			rotateFaces(90, TypeSpace3D::AXIS_OZ);
 			break;
 		case TypeRotate::TYPE_L_:
 		case TypeRotate::TYPE_R:
-			rotateFaces(-90, Polygon3D::AXIS_OZ);
+			rotateFaces(-90, TypeSpace3D::AXIS_OZ);
 			break;
 		case TypeRotate::TYPE_F:
 		case TypeRotate::TYPE_B_:
-			rotateFaces(90, Polygon3D::AXIS_OX);
+			rotateFaces(90, TypeSpace3D::AXIS_OX);
 			break;
 		case TypeRotate::TYPE_F_:
 		case TypeRotate::TYPE_B:
-			rotateFaces(-90, Polygon3D::AXIS_OX);
+			rotateFaces(-90, TypeSpace3D::AXIS_OX);
 			break;
 		case TypeRotate::TYPE_D:
 		case TypeRotate::TYPE_U_:
-			rotateFaces(90, Polygon3D::AXIS_OY);
+			rotateFaces(90, TypeSpace3D::AXIS_OY);
 			break;
 		case TypeRotate::TYPE_D_:
 		case TypeRotate::TYPE_U:
-			rotateFaces(-90, Polygon3D::AXIS_OY);
+			rotateFaces(-90, TypeSpace3D::AXIS_OY);
 			break;
 		}
 	}
