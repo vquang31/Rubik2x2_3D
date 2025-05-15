@@ -3,7 +3,7 @@
 
 void RubikCube::rotate(int type) {
 
-	//if (rotating) return;	
+	if (rotating) return;	
 
 	rotating = true;
 	startRotateTime = glutGet(GLUT_ELAPSED_TIME);
@@ -107,7 +107,6 @@ void RubikCube::rotate_Animation() {
 	double angle;
 	if (now < startRotateTime + ROTATE_TIME) {
 		angle = (double)(now - startRotateTime) / ROTATE_TIME * 90;
-		std::cout << angle << std::endl;
 	}
 	else {
 		rotating = false;

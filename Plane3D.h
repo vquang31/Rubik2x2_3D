@@ -28,7 +28,7 @@ public:
 
 
 	void cloneListPoints_save() {
-
+		listPoints_save.clear();
 		for (int i = 0; i < listPoints.size(); i++) {
 			Point3D pointTmp;
 			pointTmp.x = listPoints[i].x;
@@ -53,7 +53,6 @@ public:
 	}
 
 	void draw();
-
 
 	void realRotatePolygon_RotateAnimation(double degree, int axis);
 
