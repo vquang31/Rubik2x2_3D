@@ -17,6 +17,9 @@ Line3D lineZ(TypeSpace3D::AXIS_OZ);
 Point3D rayOrigin, rayDir;
 int selectedOption = -1;                            // Biến lưu lựa chọn của người dùng
 int typeCamera = TypeCamera::CAMERA_1;              // Biến lưu loại camera hiện tại
+Point3D cameraPosition = { 5.0f, 5.0f, 0.0f };       // Vị trí camera
+
+
 
 //Button
 std::vector<Button> buttons = {
@@ -43,28 +46,10 @@ void display() {
 
     //glTranslatef(0.0f, 0.0f, 0.0f);
    
-    switch (typeCamera) {
-        case TypeCamera::CAMERA_1:
-            gluLookAt(5.0, 5.0, 5.0, // Camera đặt ở Z = 5
-                0.0, 0.0, 0.0,       // Nhìn vào gốc tọa độ
-                0.0, 1.0, 0.0);      // Hướng lên là trục Y
-            break;            
-        case TypeCamera::CAMERA_2:
-            gluLookAt(-5.0, 5.0, 5.0,
-                0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0);
-            break;
-        case TypeCamera::CAMERA_3:
-            gluLookAt(-5.0, 5.0, -5.0,
-                0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0);
-            break;
-        case TypeCamera::CAMERA_4:
-            gluLookAt(5.0, 5.0, -5.0,
-                0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0);
-            break;
-    }
+    gluLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z,  // Camera đặt ở Z = 5
+        0.0, 0.0, 0.0,                                               // Nhìn vào gốc tọa độ
+        0.0, 1.0, 0.0);                                              // Hướng lên là trục Y
+
 
     if (rubikCube.rotating == true) {
         rubikCube.rotate_Animation();
@@ -108,6 +93,20 @@ void menuCallback(int value) {
 	}
     if (selectedOption > 100 && selectedOption < 200) {
 		typeCamera = selectedOption;
+        switch (typeCamera) {
+            case TypeCamera::CAMERA_1:
+				cameraPosition = { 5.0f, 5.0f, 5.0f };
+                break;
+            case TypeCamera::CAMERA_2:
+                cameraPosition = { -5.0f, 5.0f, 5.0f };
+                break;
+            case TypeCamera::CAMERA_3:
+                cameraPosition = { -5.0f, 5.0f, -5.0f };
+                break;
+            case TypeCamera::CAMERA_4:
+                cameraPosition = { 5.0f, 5.0f, -5.0f };
+                break;
+            }
     }
 
     glutPostRedisplay();    // yêu cầu vẽ lại
@@ -141,6 +140,120 @@ void mouse(int button, int state, int x, int y) {
             }
         }
     }
+}
+
+void specialInput(int key, int x, int y) {
+
+    switch (key) {
+        case GLUT_KEY_UP:
+			cameraPosition.y += 0.2f;
+			if (cameraPosition.y > CAMRERA_LIMIT_Y) cameraPosition.y = CAMRERA_LIMIT_Y;
+            break;
+        case GLUT_KEY_DOWN:
+            cameraPosition.y -= 0.2f;
+            if (cameraPosition.y < -CAMRERA_LIMIT_Y) cameraPosition.y = -CAMRERA_LIMIT_Y;
+            break;
+
+
+    ///                     ^ Z  +
+    ///                     |
+    ///                     |
+    ///                     |
+    ///                     |
+    ///                     |    
+    ///           1         |           2
+    ///                     |
+    ///                     |
+    ///   -  -----------------------------------> X +
+    ///                     |
+    ///                     |
+    ///                     |
+    ///          3          |           4
+    ///                     |
+    ///                     |
+    ///                     |
+    ///                     -
+    /// 
+    /// 
+    /// 
+    /// 
+    ///
+
+            /// ngược một chút 
+        case GLUT_KEY_RIGHT:
+            if (cameraPosition.x < -RADIUS_CAMERA) {
+                std::cout << " 123";
+                cameraPosition.x += 0.2f;
+                cameraPosition.z = sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+            }
+            else {
+                if (cameraPosition.x > 0) {
+                    if (cameraPosition.z > 0) { // 2
+                        cameraPosition.x += 0.2f;
+                        cameraPosition.z = sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+
+                    }
+                    else { // 4
+                        cameraPosition.x -= 0.2f;
+                        cameraPosition.z =(-1) * sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+
+                    }
+                }
+                else {
+                    if (cameraPosition.z > 0) { // 1 
+                        cameraPosition.x += 0.2f;
+                        cameraPosition.z = sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+                    }
+                    else { // 3
+                        cameraPosition.x -= 0.2f;
+                        if (RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x >= 0) {
+                            cameraPosition.z = (-1) * sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+                        }
+                        else {
+                            cameraPosition.z = 0;
+                        }
+                    }
+                }
+            }
+            break;
+        case GLUT_KEY_LEFT:  // 
+            if (cameraPosition.x == RADIUS_CAMERA) {
+                cameraPosition.x -= 0.2f;
+                cameraPosition.z = sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+            }
+            else {
+                    if (cameraPosition.x > 0) {
+                        if (cameraPosition.z < 0) { // 4
+                            cameraPosition.x += 0.2f;
+                            cameraPosition.z = (-1) * sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+                        }
+                        else { // 2
+                            cameraPosition.x -= 0.2f;
+                            cameraPosition.z =  sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+                        }
+                    }
+                    else {
+                        if (cameraPosition.z > 0) { // 1
+                            cameraPosition.x -= 0.2f;
+                            if (RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x >= 0) {
+                                cameraPosition.z = sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+                            }
+                            else {
+                                cameraPosition.z = 0.f;
+                            }
+                        }
+                        else {
+                            cameraPosition.x += 0.2f;
+                            cameraPosition.z = (-1) * sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+
+                        }
+                    }
+            }
+                
+            break;
+    }
+	std::cout << "Camera Position: " << cameraPosition.x << " " << cameraPosition.y << " " << cameraPosition.z << std::endl;
+
 }
 
 void timer(int value) {
@@ -196,6 +309,7 @@ int main(int argc, char** argv) {
     glutAttachMenu(GLUT_RIGHT_BUTTON);                      // Bấm chuột phải để hiện menu
 
     glutMouseFunc(mouse);
+    glutSpecialFunc(specialInput);
     glutTimerFunc(0, timer, 0);
 
     glutIdleFunc(idle);
