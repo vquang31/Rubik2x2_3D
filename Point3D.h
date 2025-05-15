@@ -1,7 +1,7 @@
 #pragma once
 #include <GL/glut.h>
 #include <gl/GL.h>
-
+#include "Const.h"
 class Point3D {
 public:
 	double x = 0;

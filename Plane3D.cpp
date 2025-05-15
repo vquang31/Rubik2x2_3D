@@ -71,30 +71,30 @@ void Plane3D::updateColor(int type) {
 }
 
 
-void Plane3D::rotatePolygon(double angel, int axis) {
+void Plane3D::rotatePolygon(double angle, int axis) {
 	double PI = 2 * acos(0.0);
-	double angelRad = PI / 180 * angel;
+	double angleRad = PI / 180 * angle;
 	double** A = CommonMethod::createPolygonMatrix_3D(*this);
 	double** B = CommonMethod::createUnitMatrix(3);
 
 	switch (axis) {
 	case TypeSpace3D::AXIS_OX:
-		B[1][1] = cos(angelRad);
-		B[1][2] = sin(angelRad);
-		B[2][1] = -sin(angelRad);
-		B[2][2] = cos(angelRad);
+		B[1][1] = cos(angleRad);
+		B[1][2] = sin(angleRad);
+		B[2][1] = -sin(angleRad);
+		B[2][2] = cos(angleRad);
 		break;
 	case TypeSpace3D::AXIS_OY:
-		B[0][0] = cos(angelRad);
-		B[0][2] = -sin(angelRad);
-		B[2][0] = sin(angelRad);
-		B[2][2] = cos(angelRad);
+		B[0][0] = cos(angleRad);
+		B[0][2] = -sin(angleRad);
+		B[2][0] = sin(angleRad);
+		B[2][2] = cos(angleRad);
 		break;
 	case TypeSpace3D::AXIS_OZ:
-		B[0][0] = cos(angelRad);
-		B[0][1] = sin(angelRad);
-		B[1][0] = -sin(angelRad);
-		B[1][1] = cos(angelRad);
+		B[0][0] = cos(angleRad);
+		B[0][1] = sin(angleRad);
+		B[1][0] = -sin(angleRad);
+		B[1][1] = cos(angleRad);
 		break;
 	}
 
@@ -102,6 +102,45 @@ void Plane3D::rotatePolygon(double angel, int axis) {
 	updatePoints(C);
 	return;
 }
+
+
+
+void Plane3D::rotatePolygon_RotateAnimation(double angle, int axis) {
+	double angleRad = PI / 180 * angle;
+	double** A = CommonMethod::createPolygonMatrix_3D_RotateAnimation(*this);
+	double** B = CommonMethod::createUnitMatrix(3);
+
+	switch (axis) {
+	case TypeSpace3D::AXIS_OX:
+		B[1][1] = cos(angleRad);
+		B[1][2] = sin(angleRad);
+		B[2][1] = -sin(angleRad);
+		B[2][2] = cos(angleRad);
+		break;
+	case TypeSpace3D::AXIS_OY:
+		B[0][0] = cos(angleRad);
+		B[0][2] = -sin(angleRad);
+		B[2][0] = sin(angleRad);
+		B[2][2] = cos(angleRad);
+		break;
+	case TypeSpace3D::AXIS_OZ:
+		B[0][0] = cos(angleRad);
+		B[0][1] = sin(angleRad);
+		B[1][0] = -sin(angleRad);
+		B[1][1] = cos(angleRad);
+		break;
+	}
+
+	double** C = CommonMethod::multiply(A, B, listPoints.size(), 4, 4);
+	updatePoints(C);
+	return;
+}
+
+void Plane3D::realRotatePolygon_RotateAnimation( double degree , int axis) {
+	rotatePolygon_RotateAnimation(degree, axis);
+	cloneListPoints_save();
+}
+
 
 void Plane3D::scalePolygon(double x, double y, double z) {
 	double** A = CommonMethod::createPolygonMatrix_3D(*this);

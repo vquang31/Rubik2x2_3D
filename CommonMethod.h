@@ -34,7 +34,23 @@ public:
 		return A;
 	}
 
+	/////
+	static double** createPolygonMatrix_3D_RotateAnimation(Plane3D p3D) {
+		//std::cout << " CREATE" << std::endl;
+		int row = p3D.listPoints_save.size();
+		double** A = createEmptyMatrix(row, 3);
+		for (int i = 0; i < row; i++) {
+			A[i][0] = p3D.listPoints_save[i].x;
+			A[i][1] = p3D.listPoints_save[i].y;
+			A[i][2] = p3D.listPoints_save[i].z;
+			A[i][3] = 1;
 
+		}
+		return A;
+	}
+
+
+	/////
 	static double** createEmptyMatrix(int row, int dimension) {
 		double** A = new double* [row];
 		for (int i = 0; i < row; i++) {

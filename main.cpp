@@ -66,6 +66,10 @@ void display() {
             break;
     }
 
+    if (rubikCube.rotating == true) {
+        rubikCube.rotate_Animation();
+    }
+
     rubikCube.draw();
 	lineX.draw();
 	lineY.draw();
@@ -76,10 +80,7 @@ void display() {
 	}
 
 
-    // UI
-    //int w = glutGet(GLUT_WINDOW_WIDTH);
-    //int h = glutGet(GLUT_WINDOW_HEIGHT);
-    //b1.draw();
+
 
 
     glutSwapBuffers();
@@ -103,7 +104,7 @@ void menuCallback(int value) {
 
     if(selectedOption <= 12) 
 	{
-		rubikCube.Rotate(selectedOption);
+		rubikCube.rotate(selectedOption);
 	}
     if (selectedOption > 100 && selectedOption < 200) {
 		typeCamera = selectedOption;
@@ -136,7 +137,7 @@ void mouse(int button, int state, int x, int y) {
         for (Button& button : buttons) {
             if (button.hit(rayOrigin, rayDir)) {
                 //std::cout << "[INFO] Clicked plane ID: " << button.typeRotate  << "\n";
-				rubikCube.Rotate(button.typeRotate);
+				rubikCube.rotate(button.typeRotate);
             }
         }
     }
@@ -157,7 +158,7 @@ void idle() {
 
 int main(int argc, char** argv) {
 	srand(time(0)); 
-    rubikCube.randomRotate();
+    //rubikCube.randomRotate();
     rubikCube.inCube();
 
     glutInit(&argc, argv);
@@ -197,7 +198,7 @@ int main(int argc, char** argv) {
     glutMouseFunc(mouse);
     glutTimerFunc(0, timer, 0);
 
-    //glutIdleFunc(idle);
+    glutIdleFunc(idle);
 
     glutMainLoop();
 

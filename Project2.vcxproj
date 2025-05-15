@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Const.h" />
     <ClInclude Include="TypeCamera.h" />
     <ClInclude Include="TypeColor.h" />
     <ClInclude Include="CommonMethod.h" />

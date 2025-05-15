@@ -13,6 +13,7 @@ private:
 
 public:
 	std::vector<Point3D> listPoints;
+	std::vector<Point3D> listPoints_save;
 
 	Plane3D() {}
 
@@ -22,6 +23,19 @@ public:
 
 	void update(std::vector<Point3D> listPoints1) {
 		listPoints = listPoints1;
+		cloneListPoints_save();
+	}
+
+
+	void cloneListPoints_save() {
+
+		for (int i = 0; i < listPoints.size(); i++) {
+			Point3D pointTmp;
+			pointTmp.x = listPoints[i].x;
+			pointTmp.y = listPoints[i].y;
+			pointTmp.z = listPoints[i].z;
+			listPoints_save.push_back(pointTmp);
+		}
 	}
 
 	void updateColor(int type);
@@ -40,12 +54,18 @@ public:
 
 	void draw();
 
+
+	void realRotatePolygon_RotateAnimation(double degree, int axis);
+
+	void rotatePolygon_RotateAnimation(double angle, int axis);
+
+
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="angel">: degree</param>
 	/// <param name="axis">AXIS_OX or AXIS_OY or AXIS_OZ</param>
-	void rotatePolygon(double angel, int axis);
+	void rotatePolygon(double angle , int axis);
 
 	void scalePolygon(double x, double y, double z);
 

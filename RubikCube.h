@@ -10,15 +10,13 @@ private:
 	Cube cube[8];
 
 
-protected:
-
-	void resetMoving() {
-		for (int i = 0; i < 8; i++) {
-			cube[i].resetMovingFalse();
-		}
-	}
 
 public:
+
+	int startRotateTime;
+	bool rotating = false;
+	int typeRotate = -1;
+
 
 	RubikCube() {
 		initPosition();
@@ -59,8 +57,8 @@ public:
 	//1Yn <- nYn
 	//nYn <- nY1
 	//nY1 <- 1Y1
-	void Rotate(int type);
-
+	void rotate(int type);
+	void rotate_Animation();
 
 	Cube* FindCube(int x, int y, int z) {
 		for (int i = 0; i < 8; i++) {
@@ -81,6 +79,31 @@ public:
 	// red đối yellow
 	// green đối blue 
 	// white đối ORANGE
+
+
+	void randomRotate(){
+		int n = 10;
+		for (int i = 0; i < n; i++) {
+			int type = rand() % 12 + 1;
+			rotate(type);
+		}
+	}
+
+	void draw() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 3; j++) {
+				cube[i].draw();
+			}
+		}
+	}
+
+protected:
+
+	void resetMoving() {
+		for (int i = 0; i < 8; i++) {
+			cube[i].resetMovingFalse();
+		}
+	}
 
 	void initPosition() {
 		cube[0].updatePosition(1, 1, 1);
@@ -162,22 +185,5 @@ public:
 		cube[7].face[2].update({ {1, 1, 1}, {1, 1, 0}, {0, 1, 0}, {0, 1, 1} }); //w
 
 	}
-
-	void randomRotate(){
-		int n = 10;
-		for (int i = 0; i < n; i++) {
-			int type = rand() % 12 + 1;
-			Rotate(type);
-		}
-	}
-
-	void draw() {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 3; j++) {
-				cube[i].draw();
-			}
-		}
-	}
-
 
 };
