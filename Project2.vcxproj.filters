@@ -13,21 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\CommonScript">
+      <UniqueIdentifier>{3075aa24-f334-454a-ac50-26f87e30d2f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object3D">
+      <UniqueIdentifier>{23b559d6-11eb-493d-ba4b-964f020d530b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Rubik">
+      <UniqueIdentifier>{bc3fdec7-9e1a-4246-ad20-f8eecb3a2efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object3D">
+      <UniqueIdentifier>{4e8bf90e-11f2-4653-a1b9-b085e788fdb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rubik">
+      <UniqueIdentifier>{81827ef8-c272-428e-bf64-48f82d4bc14a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Point3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Plane3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RubikCube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Line3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test2.cpp">
@@ -36,46 +39,61 @@
     <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Rubik</Filter>
+    </ClCompile>
+    <ClCompile Include="RubikCube.cpp">
+      <Filter>Source Files\Rubik</Filter>
+    </ClCompile>
+    <ClCompile Include="Line3D.cpp">
+      <Filter>Source Files\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane3D.cpp">
+      <Filter>Source Files\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Point3D.cpp">
+      <Filter>Source Files\Object3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RubikCube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Point3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonMethod.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Position3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TypeRotate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Line3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TypeSpace3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TypeColor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Const.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\CommonScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonMethod.h">
+      <Filter>Header Files\CommonScript</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeCamera.h">
+      <Filter>Header Files\CommonScript</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeColor.h">
+      <Filter>Header Files\CommonScript</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeRotate.h">
+      <Filter>Header Files\CommonScript</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeSpace3D.h">
+      <Filter>Header Files\CommonScript</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\Rubik</Filter>
+    </ClInclude>
+    <ClInclude Include="Line3D.h">
+      <Filter>Header Files\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane3D.h">
+      <Filter>Header Files\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Point3D.h">
+      <Filter>Header Files\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Position3D.h">
+      <Filter>Header Files\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="RubikCube.h">
+      <Filter>Header Files\Rubik</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,25 +26,11 @@ public:
 		cloneListPoints_save();
 	}
 
-
-	void cloneListPoints_save() {
-		listPoints_save.clear();
-		for (int i = 0; i < listPoints.size(); i++) {
-			Point3D pointTmp;
-			pointTmp.x = listPoints[i].x;
-			pointTmp.y = listPoints[i].y;
-			pointTmp.z = listPoints[i].z;
-			listPoints_save.push_back(pointTmp);
-		}
-	}
+	void cloneListPoints_save();
 
 	void updateColor(int type);
 
-	void updateColor(int r, int g, int b) {
-		redColor = r;
-		greenColor = g;
-		blueColor = b;
-	}
+	void updateColor(int r, int g, int b);
 
 	void in() {
 		for (Point3D p : listPoints) {

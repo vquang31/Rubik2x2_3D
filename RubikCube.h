@@ -1,22 +1,20 @@
 ﻿#pragma once
 
+#include <iostream>
+#include <array>
+#include <queue>
 #include "Plane3D.h"
 #include "Cube.h"
-#include <array>
 #include "TypeRotate.h"
 class RubikCube {
-
 private:
 	Cube cube[8];
-
-
-
-public:
-
+	std::queue <int> randomRotateTypeQueue;
 	int startRotateTime;
 	bool rotating = false;
 	int typeRotate = -1;
 
+public:
 
 	RubikCube() {
 		initPosition();
@@ -24,6 +22,10 @@ public:
 		initFaces();
 
 		//randomRotate();
+	}
+
+	bool isRotating() {
+		return rotating;
 	}
 
 	////
@@ -57,12 +59,13 @@ public:
 	//1Yn <- nYn
 	//nYn <- nY1
 	//nY1 <- 1Y1
+
 	void rotate(int type);
 	void rotate_Animation();
 
 	Cube* FindCube(int x, int y, int z) {
 		for (int i = 0; i < 8; i++) {
-			if (cube[i].moving == false && cube[i].position.x == x && cube[i].position.y == y && cube[i].position.z == z) {
+			if (cube[i].isMoving() == false && cube[i].getPosition().x == x && cube[i].getPosition().y == y && cube[i].getPosition().z == z) {
 				return &cube[i];
 			}
 		}
@@ -72,7 +75,7 @@ public:
 
 	void inCube() {
 		for (int i = 0; i < 8; i++) {
-			std::cout << "Cube " << i << ": " << cube[i].position.x << " " << cube[i].position.y << " " << cube[i].position.z << std::endl;
+			std::cout << "Cube " << i << ": " << cube[i].getPosition().x << " " << cube[i].getPosition().y << " " << cube[i].getPosition().z << std::endl;
 		}
 	}
 
@@ -80,22 +83,8 @@ public:
 	// green đối blue 
 	// white đối ORANGE
 
-
-	void randomRotate(){
-		int n = 10;
-		for (int i = 0; i < n; i++) {
-			int type = rand() % 12 + 1;
-			rotate(type);
-		}
-	}
-
-	void draw() {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 3; j++) {
-				cube[i].draw();
-			}
-		}
-	}
+	void randomRotate();
+	void draw();
 
 protected:
 

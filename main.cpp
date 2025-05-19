@@ -1,16 +1,16 @@
 ﻿// cube3d.cpp
 #include <GL/glut.h>
 #include <iostream>
+#include <vector>
 #include "Plane3D.h"
 #include "RubikCube.h"
 #include "Line3D.h"
 #include "Button.h"
 #include "TypeCamera.h"
-#include <vector>
 
+float rotationAngle = 0.0f;
 
 RubikCube rubikCube;
-float rotationAngle = 0.0f;
 Line3D lineX(TypeSpace3D::AXIS_OX);
 Line3D lineY(TypeSpace3D::AXIS_OY);
 Line3D lineZ(TypeSpace3D::AXIS_OZ);
@@ -51,7 +51,7 @@ void display() {
         0.0, 1.0, 0.0);                                              // Hướng lên là trục Y
 
 
-    if (rubikCube.rotating == true) {
+    if (rubikCube.isRotating() == true) {
         rubikCube.rotate_Animation();
     }
 
@@ -63,9 +63,6 @@ void display() {
 	for (int i = 0; i < buttons.size(); i++) {
 		buttons[i].draw();
 	}
-
-
-
 
 
     glutSwapBuffers();
@@ -95,22 +92,49 @@ void menuCallback(int value) {
 		typeCamera = selectedOption;
         switch (typeCamera) {
             case TypeCamera::CAMERA_1:
-				cameraPosition = { 5.0f, 5.0f, 5.0f };
+				cameraPosition = { 5.0f, 5.0f, 0.0f };
                 break;
             case TypeCamera::CAMERA_2:
-                cameraPosition = { -5.0f, 5.0f, 5.0f };
+                cameraPosition = { -5.0f, 5.0f, 0.0f };
                 break;
             case TypeCamera::CAMERA_3:
-                cameraPosition = { -5.0f, 5.0f, -5.0f };
+                cameraPosition = { 0.0f, 5.0f, -5.0f };
                 break;
             case TypeCamera::CAMERA_4:
-                cameraPosition = { 5.0f, 5.0f, -5.0f };
+                cameraPosition = { 0.0f, 5.0f, 5.0f };
                 break;
             }
     }
+    if(selectedOption == 1001)     rubikCube.randomRotate();
 
     glutPostRedisplay();    // yêu cầu vẽ lại
 }
+
+void addEventMenu() {
+    glutAddMenuEntry("Camera_1", TypeCamera::CAMERA_1);
+    glutAddMenuEntry("Camera_2", TypeCamera::CAMERA_2);
+    glutAddMenuEntry("Camera_3", TypeCamera::CAMERA_3);
+    glutAddMenuEntry("Camera_4", TypeCamera::CAMERA_4);
+
+    glutAddMenuEntry("RandomRotate", 1001);
+
+    glutAddMenuEntry("Rotate_R", TypeRotate::TYPE_R);
+    glutAddMenuEntry("Rotate_R_", TypeRotate::TYPE_R_);
+    glutAddMenuEntry("Rotate_L", TypeRotate::TYPE_L);
+    glutAddMenuEntry("Rotate_L_", TypeRotate::TYPE_L_);
+    glutAddMenuEntry("Rotate_F", TypeRotate::TYPE_F);
+    glutAddMenuEntry("Rotate_F_", TypeRotate::TYPE_F_);
+    glutAddMenuEntry("Rotate_B", TypeRotate::TYPE_B);
+    glutAddMenuEntry("Rotate_B_", TypeRotate::TYPE_B_);
+    glutAddMenuEntry("Rotate_U", TypeRotate::TYPE_U);
+    glutAddMenuEntry("Rotate_U_", TypeRotate::TYPE_U_);
+    glutAddMenuEntry("Rotate_D", TypeRotate::TYPE_D);
+    glutAddMenuEntry("Rotate_D_", TypeRotate::TYPE_D_);
+
+    glutAttachMenu(GLUT_RIGHT_BUTTON);                      // Bấm chuột phải để hiện menu
+
+}
+
 
 void mouse(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
@@ -173,10 +197,6 @@ void specialInput(int key, int x, int y) {
     ///                     |
     ///                     |
     ///                     -
-    /// 
-    /// 
-    /// 
-    /// 
     ///
 
             /// ngược một chút 
@@ -245,15 +265,12 @@ void specialInput(int key, int x, int y) {
                         else {
                             cameraPosition.x += 0.2f;
                             cameraPosition.z = (-1) * sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
-
                         }
                     }
             }
-                
             break;
     }
 	std::cout << "Camera Position: " << cameraPosition.x << " " << cameraPosition.y << " " << cameraPosition.z << std::endl;
-
 }
 
 void timer(int value) {
@@ -271,12 +288,10 @@ void idle() {
 
 int main(int argc, char** argv) {
 	srand(time(0)); 
-    //rubikCube.randomRotate();
-    rubikCube.inCube();
 
     glutInit(&argc, argv);
     glutInitWindowSize(800, 600);
-    glutCreateWindow("3D Cube with OpenGL & GLUT");
+    glutCreateWindow("Rubik Cube with OpenGL & GLUT");
 
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
 
@@ -287,27 +302,7 @@ int main(int argc, char** argv) {
 
     // event menu
     int menu = glutCreateMenu(menuCallback);
-
-    glutAddMenuEntry("Camera_1", TypeCamera::CAMERA_1);
-    glutAddMenuEntry("Camera_2", TypeCamera::CAMERA_2);
-    glutAddMenuEntry("Camera_3", TypeCamera::CAMERA_3);
-    glutAddMenuEntry("Camera_4", TypeCamera::CAMERA_4);
-
-    glutAddMenuEntry("Rotate_R", TypeRotate::TYPE_R);
-    glutAddMenuEntry("Rotate_R_", TypeRotate::TYPE_R_);
-    glutAddMenuEntry("Rotate_L", TypeRotate::TYPE_L);
-    glutAddMenuEntry("Rotate_L_", TypeRotate::TYPE_L_);
-    glutAddMenuEntry("Rotate_F", TypeRotate::TYPE_F);
-    glutAddMenuEntry("Rotate_F_", TypeRotate::TYPE_F_);
-    glutAddMenuEntry("Rotate_B", TypeRotate::TYPE_B);
-    glutAddMenuEntry("Rotate_B_", TypeRotate::TYPE_B_);
-    glutAddMenuEntry("Rotate_U", TypeRotate::TYPE_U);
-    glutAddMenuEntry("Rotate_U_", TypeRotate::TYPE_U_);
-    glutAddMenuEntry("Rotate_D", TypeRotate::TYPE_D);
-    glutAddMenuEntry("Rotate_D_", TypeRotate::TYPE_D_);
-
-    glutAttachMenu(GLUT_RIGHT_BUTTON);                      // Bấm chuột phải để hiện menu
-
+    addEventMenu();
     glutMouseFunc(mouse);
     glutSpecialFunc(specialInput);
     glutTimerFunc(0, timer, 0);
@@ -315,6 +310,8 @@ int main(int argc, char** argv) {
     glutIdleFunc(idle);
 
     glutMainLoop();
+
+    rubikCube.randomRotate();
 
     return 0;
 }

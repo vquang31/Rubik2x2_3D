@@ -4,7 +4,6 @@
 #include "Plane3D.h"
 class Button : public Plane3D{
 public:
-
 	int typeRotate = -1;
 
 	Button(std::vector<Point3D> listPoints1 , int typeRotate , int typeColor){

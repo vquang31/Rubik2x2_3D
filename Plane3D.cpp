@@ -33,6 +33,18 @@ void Plane3D::draw() {
 }
 
 
+void Plane3D::cloneListPoints_save() {
+	listPoints_save.clear();
+	for (int i = 0; i < listPoints.size(); i++) {
+		Point3D pointTmp;
+		pointTmp.x = listPoints[i].x;
+		pointTmp.y = listPoints[i].y;
+		pointTmp.z = listPoints[i].z;
+		listPoints_save.push_back(pointTmp);
+	}
+}
+
+
 void Plane3D::updateColor(int type) {
 	switch (type) {
 	case TypeColor::COLOR_RED:
@@ -71,6 +83,14 @@ void Plane3D::updateColor(int type) {
 }
 
 
+void Plane3D::updateColor(int r, int g, int b) {
+	redColor = r;
+	greenColor = g;
+	blueColor = b;
+}
+
+
+
 void Plane3D::rotatePolygon(double angle, int axis) {
 	double PI = 2 * acos(0.0);
 	double angleRad = PI / 180 * angle;
@@ -100,6 +120,11 @@ void Plane3D::rotatePolygon(double angle, int axis) {
 
 	double** C = CommonMethod::multiply(A, B, listPoints.size(), 4, 4);
 	updatePoints(C);
+
+	// free memory
+	CommonMethod::deleteMatrix(A, listPoints.size());
+	CommonMethod::deleteMatrix(B, 4);
+	CommonMethod::deleteMatrix(C, listPoints.size());
 	return;
 }
 
@@ -133,6 +158,12 @@ void Plane3D::rotatePolygon_RotateAnimation(double angle, int axis) {
 
 	double** C = CommonMethod::multiply(A, B, listPoints.size(), 4, 4);
 	updatePoints(C);
+
+
+	// free memory
+	CommonMethod::deleteMatrix(A, listPoints.size());
+	CommonMethod::deleteMatrix(B, 4);
+	CommonMethod::deleteMatrix(C, listPoints.size());
 	return;
 }
 
@@ -152,6 +183,11 @@ void Plane3D::scalePolygon(double x, double y, double z) {
 
 	double** C = CommonMethod::multiply(A, B, listPoints.size(), 4, 4);
 	updatePoints(C);
+
+	// free memory
+	CommonMethod::deleteMatrix(A, listPoints.size());
+	CommonMethod::deleteMatrix(B, 4);
+	CommonMethod::deleteMatrix(C, listPoints.size());
 	return;
 
 }
@@ -169,6 +205,10 @@ void Plane3D::transformPolygon(double b, double c, double d, double f, double g,
 
 	double** C = CommonMethod::multiply(A, B, listPoints.size(), 4, 4);
 	updatePoints(C);
+	// free memory
+	CommonMethod::deleteMatrix(A, listPoints.size());
+	CommonMethod::deleteMatrix(B, 4);
+	CommonMethod::deleteMatrix(C, listPoints.size());
 	return;
 }
 
@@ -203,6 +243,10 @@ void Plane3D::symmetryPolygon(int type) {
 
 	double** C = CommonMethod::multiply(A, B, listPoints.size(), 4, 4);
 	updatePoints(C);
+	// free memory
+	CommonMethod::deleteMatrix(A, listPoints.size());
+	CommonMethod::deleteMatrix(B, 4);
+	CommonMethod::deleteMatrix(C, listPoints.size());
 	return;
 }
 
@@ -215,6 +259,10 @@ void Plane3D::movePolygon(double a, double b, double c) {
 
 	double** C = CommonMethod::multiply(A, B, listPoints.size(), 4, 4);
 	updatePoints(C);
+	// free memory
+	CommonMethod::deleteMatrix(A, listPoints.size());
+	CommonMethod::deleteMatrix(B, 4);
+	CommonMethod::deleteMatrix(C, listPoints.size());
 	return;
 
 }

@@ -73,4 +73,12 @@ public:
 		return A;
 	}
 
+	static void deleteMatrix(double** matrix, int rowCount) {
+		if (!matrix) return;
+		for (int i = 0; i < rowCount; ++i) {
+			delete[] matrix[i];
+		}
+		delete[] matrix;
+	}
+
 };
