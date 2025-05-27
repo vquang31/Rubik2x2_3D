@@ -7,6 +7,7 @@
 #include "Line3D.h"
 #include "Button.h"
 #include "TypeCamera.h"
+#include "CommonMethod.h"
 
 float rotationAngle = 0.0f;
 
@@ -106,7 +107,7 @@ void menuCallback(int value) {
             }
     }
     if(selectedOption == 1001)     rubikCube.randomRotate();
-
+	if (selectedOption == 2001)     rubikCube.solveCube();
     glutPostRedisplay();    // yêu cầu vẽ lại
 }
 
@@ -117,7 +118,8 @@ void addEventMenu() {
     glutAddMenuEntry("Camera_4", TypeCamera::CAMERA_4);
 
     glutAddMenuEntry("RandomRotate", 1001);
-
+    glutAddMenuEntry("SolveCube", 2001);
+        
     glutAddMenuEntry("Rotate_R", TypeRotate::TYPE_R);
     glutAddMenuEntry("Rotate_R_", TypeRotate::TYPE_R_);
     glutAddMenuEntry("Rotate_L", TypeRotate::TYPE_L);
@@ -204,7 +206,10 @@ void specialInput(int key, int x, int y) {
             if (cameraPosition.x < -RADIUS_CAMERA) {
                 std::cout << " 123";
                 cameraPosition.x += 0.2f;
-                cameraPosition.z = sqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
+                /*float rad = RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x;
+               */
+                
+                cameraPosition.z = CommonMethod::Fsqrt(RADIUS_CAMERA * RADIUS_CAMERA - cameraPosition.x * cameraPosition.x);
             }
             else {
                 if (cameraPosition.x > 0) {

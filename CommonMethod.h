@@ -2,9 +2,22 @@
 
 #include "Point3D.h"
 #include "Plane3D.h"
+#include <cmath>
 
 class CommonMethod {
 public:
+
+	static inline float Fsqrt(float v) {
+		return std::sqrt(v < 0.0f ? 0.0f : v); //check sqrt
+
+	}
+	//ep kieu double
+	static inline float Fsqrt(double v) {
+		return static_cast<float>(std::sqrt(v < 0.0 ? 0.0 : v)); //check sqrt
+
+	}
+
+
 	static double** multiply(double** A, double** B, int x, int y, int z) {
 		double** C = new double* [x];
 		for (int i = 0; i < x; ++i) {
