@@ -1,4 +1,4 @@
-﻿// cube3d.cpp
+﻿
 #include <GL/glut.h>
 #include <iostream>
 #include <vector>
@@ -18,14 +18,30 @@ Line3D lineZ(TypeSpace3D::AXIS_OZ);
 Point3D rayOrigin, rayDir;
 int selectedOption = -1;                            // Biến lưu lựa chọn của người dùng
 int typeCamera = TypeCamera::CAMERA_1;              // Biến lưu loại camera hiện tại
-Point3D cameraPosition = { 5.0f, 5.0f, 0.0f };       // Vị trí camera
+Point3D cameraPosition = { 10.0f, 5.0f, 0.0f };       // Vị trí camera
 
 
 
 //Button
 std::vector<Button> buttons = {
-    Button({ {2,2,3} , {1 ,2 ,3} , {1 , 1, 3} ,{ 2, 1, 3} }, TypeRotate::TYPE_R ,TypeColor::COLOR_RED ),
-   
+    Button({ {3, 0, 1} , {3 ,0 ,0} , {3 , 1, 0.5}  }, TypeRotate::TYPE_R_ ,TypeColor::COLOR_RED),
+    Button({ {3, 0, 1} , {3 ,0 ,0} , {3 , -1, 0.5}  }, TypeRotate::TYPE_R ,TypeColor::COLOR_BLUE),
+
+    Button({ {3, 0, -1} , {3 ,0 ,0} , {3 , 1, -0.5}  }, TypeRotate::TYPE_L ,TypeColor::COLOR_RED),
+    Button({ {3, 0, -1} , {3 ,0 ,0} , {3 , -1, -0.5}  }, TypeRotate::TYPE_L_ ,TypeColor::COLOR_BLUE),
+
+    Button({ {1, 0, 3} , {0 ,0 ,3} , {0.5 , 1, 3}  }, TypeRotate::TYPE_B ,TypeColor::COLOR_RED),
+    Button({ {1, 0, 3} , {0 ,0 ,3} , {0.5 , -1, 3}  }, TypeRotate::TYPE_B_ ,TypeColor::COLOR_BLUE),
+
+    Button({ {-1, 0, 3} , {0 ,0 ,3} , {-0.5 , 1, 3}  }, TypeRotate::TYPE_F_ ,TypeColor::COLOR_RED),
+    Button({ {-1, 0, 3} , {0 ,0 ,3} , {-0.5 , -1, 3}  }, TypeRotate::TYPE_F ,TypeColor::COLOR_BLUE),
+
+    Button({ {-3, 0, 0} ,{-3, 1, 0}, {-3 , 0.5,  1} }, TypeRotate::TYPE_U_ ,TypeColor::COLOR_ORANGE),
+    Button({ {-3, 0, 0} ,{-3, 1, 0}, {-3 , 0.5,  -1} }, TypeRotate::TYPE_U ,TypeColor::COLOR_ORANGE),
+
+    Button({ {-3, 0, 0} ,{-3, -1, 0}, {-3 , -0.5,  1} }, TypeRotate::TYPE_D ,TypeColor::COLOR_WHITE),
+    Button({ {-3, 0, 0} ,{-3, -1, 0}, {-3 , -0.5,  -1} }, TypeRotate::TYPE_D_ ,TypeColor::COLOR_WHITE),
+
 };
 
 // Cấu hình OpenGL
@@ -93,16 +109,7 @@ void menuCallback(int value) {
 		typeCamera = selectedOption;
         switch (typeCamera) {
             case TypeCamera::CAMERA_1:
-				cameraPosition = { 5.0f, 5.0f, 0.0f };
-                break;
-            case TypeCamera::CAMERA_2:
-                cameraPosition = { -5.0f, 5.0f, 0.0f };
-                break;
-            case TypeCamera::CAMERA_3:
-                cameraPosition = { 0.0f, 5.0f, -5.0f };
-                break;
-            case TypeCamera::CAMERA_4:
-                cameraPosition = { 0.0f, 5.0f, 5.0f };
+				cameraPosition = { 10.0f, 5.0f, 0.0f };
                 break;
             }
     }
@@ -113,9 +120,6 @@ void menuCallback(int value) {
 
 void addEventMenu() {
     glutAddMenuEntry("Camera_1", TypeCamera::CAMERA_1);
-    glutAddMenuEntry("Camera_2", TypeCamera::CAMERA_2);
-    glutAddMenuEntry("Camera_3", TypeCamera::CAMERA_3);
-    glutAddMenuEntry("Camera_4", TypeCamera::CAMERA_4);
 
     glutAddMenuEntry("RandomRotate", 1001);
     glutAddMenuEntry("SolveCube", 2001);
