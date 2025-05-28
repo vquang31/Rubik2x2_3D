@@ -6,13 +6,17 @@
 #include "Plane3D.h"
 #include "Cube.h"
 #include "TypeRotate.h"
+#include "vector"
 class RubikCube {
 private:
 	Cube cube[8];
 	std::queue <int> randomRotateTypeQueue;
+	std::vector<int> stepHistory;
 	int startRotateTime;
 	bool rotating = false;
+	bool autoSolve = false;
 	int typeRotate = -1;
+	static int revertMove(int type);
 
 public:
 
@@ -85,6 +89,9 @@ public:
 
 	void randomRotate();
 	void draw();
+
+	void solveCube();
+
 
 protected:
 

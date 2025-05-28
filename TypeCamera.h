@@ -8,5 +8,5 @@ public:
 	const static int CAMERA_2 = 102;
 	const static int CAMERA_3 = 103;
 	const static int CAMERA_4 = 104;
-
+	
 };

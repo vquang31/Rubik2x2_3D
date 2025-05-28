@@ -1,12 +1,18 @@
 ﻿#include "RubikCube.h"
 #include <iostream>
+#include <algorithm>
 
 void RubikCube::rotate(int type) {
 
 	if (rotating) return;	
-	rotating = true;
+	/*rotating = true;*/
+	if (!autoSolve)
+		stepHistory.push_back(type);
+
+	rotating = true; // Bắt đầu xoay
 	startRotateTime = glutGet(GLUT_ELAPSED_TIME);
 	typeRotate = type;
+	
 }
 
 void RubikCube::rotate_Animation() {
@@ -58,6 +64,9 @@ void RubikCube::rotate_Animation() {
 			break;
 
 		}
+		//////////////
+		if (!rotating && randomRotateTypeQueue.empty() && autoSolve)
+			autoSolve = false;
 	}
 
 	int n = 2;
@@ -169,5 +178,44 @@ void RubikCube::draw() {
 		for (int j = 0; j < 3; j++) {
 			cube[i].draw();
 		}
+	}
+}
+int RubikCube::revertMove(int t) {
+	switch (t) {
+	case TypeRotate::TYPE_R:  return TypeRotate::TYPE_R_;
+	case TypeRotate::TYPE_R_: return TypeRotate::TYPE_R;
+	case TypeRotate::TYPE_L:  return TypeRotate::TYPE_L_;
+	case TypeRotate::TYPE_L_: return TypeRotate::TYPE_L;
+	case TypeRotate::TYPE_F:  return TypeRotate::TYPE_F_;
+	case TypeRotate::TYPE_F_: return TypeRotate::TYPE_F;
+	case TypeRotate::TYPE_B:  return TypeRotate::TYPE_B_;
+	case TypeRotate::TYPE_B_: return TypeRotate::TYPE_B;
+	case TypeRotate::TYPE_U:  return TypeRotate::TYPE_U_;
+	case TypeRotate::TYPE_U_: return TypeRotate::TYPE_U;
+	case TypeRotate::TYPE_D:  return TypeRotate::TYPE_D_;
+	case TypeRotate::TYPE_D_: return TypeRotate::TYPE_D;
+	default: return t;
+	}
+}
+//logic : se dao nguoc moi thao tac de giai rubik
+void RubikCube::solveCube() {
+	std::cout << "dang giai rubik:" << std::endl;
+	if (rotating) return;         // doi rubik no xoay xong da        
+
+	//ko history thi k thuc hien
+	while (!randomRotateTypeQueue.empty())
+		randomRotateTypeQueue.pop();
+
+	// dua chuoi thao tac nghich dao vao queue
+	for (auto it = stepHistory.rbegin(); it != stepHistory.rend(); ++it)
+		randomRotateTypeQueue.push(revertMove(*it));
+
+	stepHistory.clear();
+	autoSolve = true; // bat che do giai rubik
+
+	
+	if (!randomRotateTypeQueue.empty()) {
+		rotate(randomRotateTypeQueue.front());
+		randomRotateTypeQueue.pop();
 	}
 }
