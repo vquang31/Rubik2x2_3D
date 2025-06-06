@@ -1,0 +1,18 @@
+dùng cái này cho VS tím 
+
+cho các project C++
+
+
+C/C++ > General > Additional Include Directories :
+C:\freeglut\include
+
+
+Linker > General > Additional Library Directories:
+Đặt đúng thứ tự:
+C:\freeglut\lib\x64  -> cho x64
+C:\freeglut\lib -> cho x86
+
+
+
+Linker > Input > Additional Dependencies:
+freeglut.lib
